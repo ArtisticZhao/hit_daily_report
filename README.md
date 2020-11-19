@@ -1,6 +1,6 @@
 # Automatically daily report of HIT
 ## Requirements
-- [chromedriver](https://chromedriver.chromium.org/downloads)
+- [chromedriver](https://chromedriver.chromium.org/downloads) or [Edgedriver](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/)
 - Selenium
 - Python3+
 
@@ -29,8 +29,11 @@
     ```
 
 ## Usage
-    Modify the USERNAME and PASSWD with your hit_id username and password.
-
-    Run `python3 main.py`
-
+Modify the USERNAME and PASSWD with your hit_id username and password.
+- test the python
+    Run `python3 main.py id1 password1`
+- run use a windows script
+    Run 'auto.bat'
+- add to the schedule tasks in windows.
+    You can add a scheduled tasks to run the script at specify time!
 
