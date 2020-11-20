@@ -6,11 +6,11 @@ import sys
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 3:
         print("usage: python main.py id passwd")
         sys.exit(-1)
     URL = "https://xg.hit.edu.cn/zhxy-xgzs/xg_mobile/xsHome"
-    driver = webdriver.Chrome()
+    driver = webdriver.Firefox()
     driver.get(URL)
     # login
     username_input = driver.find_element_by_id("username")
@@ -53,5 +53,5 @@ if __name__ == "__main__":
     driver.find_element_by_xpath("/html/body/div[5]").click()
     # save the result
     driver.save_screenshot(sys.argv[1]+".png")
-
+    print(sys.argv[1] + " : OK")
     driver.quit()
