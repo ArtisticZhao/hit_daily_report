@@ -1,6 +1,6 @@
 # Automatically daily report of HIT
 ## Requirements
-- [chromedriver](https://chromedriver.chromium.org/downloads) or [Edgedriver](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/)
+- [chromedriver](https://chromedriver.chromium.org/downloads), [edgedriver](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/) or [firefoxdriver](https://github.com/mozilla/geckodriver). To install browser driver, put the driver executer into the PATH.
 - Selenium
 - Python3+
 
