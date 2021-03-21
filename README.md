@@ -20,6 +20,14 @@
 
     **Add the Chrome to the PATH**
 
+- Install MSedgedriver
+
+    Download the [edgedriver](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/) from the link.
+
+    **You need to confirm your edge verison** from the about page of edge.
+
+    Put the driver to `C:\Program Files (x86)\Microsoft\Edge\Application` and rename it to `MicrosoftWebDriver.exe`
+
 - Install python
 
     Download installer from the [python home page](https://python.org)
