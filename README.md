@@ -1,5 +1,7 @@
 # Automatically daily report of HIT
+
 ## Requirements
+
 - [chromedriver](https://chromedriver.chromium.org/downloads), [edgedriver](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/) or [firefoxdriver](https://github.com/mozilla/geckodriver). To install browser driver, put the driver executer into the PATH.
 - Selenium
 - Python3+
@@ -33,14 +35,18 @@
     Download installer from the [python home page](https://python.org)
 
 - Install Selenium via pip
+
     ```
     python3 -m pip install Selenium
     ```
 
 ## Usage
+
 Modify the USERNAME and PASSWD with your hit_id username and password.
+
 - test the python  
-    Run `python3 main.py id1 password1`
+    Run `python3 main.py id1 password1` to daily report.
+    Run `python3 main.py id1 password1 outside` to request a go-out permittion.
 
 - run use a windows script  
     Run `auto.bat`
