@@ -1,12 +1,12 @@
 # coding: utf-8
 import time
-import datetime
+from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 import sys
 import random
 
-RANDOM_HOUR = 4
+RANDOM_HOUR = 1
 
 get_pre_location_js = '''$.ajax({
     url : "/zhxy-xgzs/xg_mobile/xsMrsb/getYqxx",
@@ -19,7 +19,9 @@ get_pre_location_js = '''$.ajax({
     }
 });
 '''
-
+set_location_js = '''
+$("#gnxxdz").text("黑龙江省哈尔滨市香坊区王兆街道航天路哈尔滨工业大学科学园(文政街)");
+'''
 get_out_data_js = '''
     // 获取当前日期
     var date = new Date();
@@ -106,8 +108,6 @@ def go_outside():
 
 
 if __name__ == "__main__":
-    delay_time_random = random.randint(0, RANDOM_HOUR*3600)
-    time.sleep(delay_time_random)
     if len(sys.argv) < 3:
         print("""Usage:
                     [daily report] python main.py id passwd
@@ -118,6 +118,11 @@ if __name__ == "__main__":
             go_outside()
             sys.exit(0)
 
+    delay_time_random = 1 # random.randint(0, RANDOM_HOUR*3600)
+    print("deley " + str(delay_time_random) + "s")
+    time.sleep(delay_time_random)
+
+    print(sys.argv[1])
     # daily report
     URL = "https://xg.hit.edu.cn/zhxy-xgzs/xg_mobile/xs/yqxx"
     # allow position
@@ -125,10 +130,10 @@ if __name__ == "__main__":
     profile.set_preference("geo.prompt.testing", True)
     profile.set_preference("geo.prompt.testing.allow", False)
 
-    # open report page
+    # --------- open report page
     driver = webdriver.Firefox(firefox_profile=profile)
     driver.get(URL)
-    # login
+    # --------- login
     username_input = driver.find_element_by_id("username")
     username_input.clear()
     username_input.send_keys(sys.argv[1])
@@ -138,8 +143,9 @@ if __name__ == "__main__":
     button_login = driver.find_element_by_xpath(
         "/html/body/div[2]/div[2]/div[2]/div/div[3]/div/form/p[5]/button").click()
     time.sleep(1)
-    #  # open daily report
-    #  driver.find_element_by_id("mrsb").click()
+
+    # --------- open daily report
+    # driver.find_element_by_id("mrsb").click()
     # click add button
     driver.execute_script("javascript:add();")
     #  driver.find_element_by_xpath("/html/body/div[1]/div[2]/div[1]/a/div").click()
@@ -147,7 +153,7 @@ if __name__ == "__main__":
     # deal with Alert
     result = EC.alert_is_present()(driver)
     if result:
-        print(result.text)
+        print("alert at add: " + result.text)
         result.accept()
         # click modify herf
         modify = driver.find_element_by_xpath('//div[contains(@onclick, "\'0\'")]')
@@ -156,8 +162,7 @@ if __name__ == "__main__":
         #  modify = driver.find_element_by_xpath("/html/body/div[1]/div[2]/div[2]/div[2]")
         modify.click()
         time.sleep(5)
-    else:
-        print("alert 未弹出！")
+
     # deal with Alert: here the web will try to get your locations
     # but if the browse block will popup a alert
     time.sleep(5)
@@ -165,21 +170,24 @@ if __name__ == "__main__":
     if result:
         print(result.text)
         result.accept()
-    else:
-        print("alert 未弹出！")
 
-    # process the location!!!
-    driver.execute_script(get_pre_location_js)
+    # --------- process the location!!!
+    driver.execute_script(set_location_js)
+    loc = driver.find_element_by_id("gnxxdz")
+    print(loc.text)
     time.sleep(1)
 
-    # check the checkbox
+    # --------- check the checkbox
     driver.find_element_by_id("checkbox").click()
-    # submit
-    driver.find_element_by_class_name('right_btn').click()
 
+    # --------- submit
+    driver.find_element_by_class_name('right_btn').click()
+    print("report at " + str(datetime.now()))
     driver.find_element_by_xpath('//a[contains(text(), "确定")]').click()
     time.sleep(5)
-    # save the result
+
+    # --------- save the result
     driver.save_screenshot(sys.argv[1]+".png")
     print(sys.argv[1] + " : OK")
-    driver.close()
+    print()
+    # driver.close()
