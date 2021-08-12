@@ -4,7 +4,9 @@ import datetime
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 import sys
+import random
 
+RANDOM_HOUR = 4
 
 get_pre_location_js = '''$.ajax({
     url : "/zhxy-xgzs/xg_mobile/xsMrsb/getYqxx",
@@ -104,6 +106,8 @@ def go_outside():
 
 
 if __name__ == "__main__":
+    delay_time_random = random.randint(0, RANDOM_HOUR*3600)
+    time.sleep(delay_time_random)
     if len(sys.argv) < 3:
         print("""Usage:
                     [daily report] python main.py id passwd
