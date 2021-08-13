@@ -174,6 +174,10 @@ if __name__ == "__main__":
     # --------- process the location!!!
     driver.execute_script(get_pre_location_js)
     loc = driver.find_element_by_id("gnxxdz")
+    if(loc.text.find("黑龙江省哈尔滨市南岗区先锋路街道学义路哈尔滨工业大学二校区") >= 0):
+        print("WARNING: find default address!")
+        driver.execute_script(set_location_js)
+    loc = driver.find_element_by_id("gnxxdz")
     print(loc.text)
     time.sleep(1)
 
