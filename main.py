@@ -15,7 +15,7 @@ get_pre_location_js = '''$.ajax({
     data : {info:JSON.stringify({id : id})},
     success : function(result) {
         var data = result.module.data[0];
-        $("#gnxxdz").val(data.gnxxdz);
+        $("#gnxxdz").text(data.gnxxdz);
     }
 });
 '''
@@ -118,7 +118,7 @@ if __name__ == "__main__":
             go_outside()
             sys.exit(0)
 
-    delay_time_random = 1 # random.randint(0, RANDOM_HOUR*3600)
+    delay_time_random = random.randint(0, RANDOM_HOUR*3600)
     print("deley " + str(delay_time_random) + "s")
     time.sleep(delay_time_random)
 
@@ -172,7 +172,7 @@ if __name__ == "__main__":
         result.accept()
 
     # --------- process the location!!!
-    driver.execute_script(set_location_js)
+    driver.execute_script(get_pre_location_js)
     loc = driver.find_element_by_id("gnxxdz")
     print(loc.text)
     time.sleep(1)
@@ -190,4 +190,4 @@ if __name__ == "__main__":
     driver.save_screenshot(sys.argv[1]+".png")
     print(sys.argv[1] + " : OK")
     print()
-    # driver.close()
+    driver.close()
