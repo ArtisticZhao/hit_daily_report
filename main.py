@@ -124,7 +124,7 @@ if __name__ == "__main__":
 
     print(sys.argv[1])
     # daily report
-    URL = "https://xg.hit.edu.cn/zhxy-xgzs/xg_mobile/xs/yqxx"
+    URL = "https://xg.hit.edu.cn/zhxy-xgzs/xg_mobile/xsMrsbNew"
     # allow position
     profile = webdriver.FirefoxProfile()
     profile.set_preference("geo.prompt.testing", True)
@@ -145,50 +145,27 @@ if __name__ == "__main__":
     time.sleep(1)
 
     # --------- open daily report
-    # driver.find_element_by_id("mrsb").click()
-    # click add button
-    driver.execute_script("javascript:add();")
+    # get location
+    driver.execute_script("map();")
     #  driver.find_element_by_xpath("/html/body/div[1]/div[2]/div[1]/a/div").click()
     time.sleep(1)
-    # deal with Alert
-    result = EC.alert_is_present()(driver)
-    if result:
-        print("alert at add: " + result.text)
-        result.accept()
-        # click modify herf
-        modify = driver.find_element_by_xpath('//div[contains(@onclick, "\'0\'")]')
-        #  print(modify)
-        #  sys.exit(0)
-        #  modify = driver.find_element_by_xpath("/html/body/div[1]/div[2]/div[2]/div[2]")
-        modify.click()
-        time.sleep(5)
-
-    # deal with Alert: here the web will try to get your locations
-    # but if the browse block will popup a alert
-    time.sleep(5)
-    result = EC.alert_is_present()(driver)
-    if result:
-        print(result.text)
-        result.accept()
-
-    # --------- process the location!!!
-    driver.execute_script(get_pre_location_js)
-    loc = driver.find_element_by_id("gnxxdz")
-    if(loc.text.find("黑龙江省哈尔滨市南岗区先锋路街道学义路哈尔滨工业大学二校区") >= 0):
-        print("WARNING: find default address!")
-        driver.execute_script(set_location_js)
-    loc = driver.find_element_by_id("gnxxdz")
-    print(loc.text)
-    time.sleep(1)
+    # show location
+    loc = driver.execute_script("return $('#dtjwd')[0].innerText")
+    print(loc)
+    if(loc.find("哈尔滨") < 0):
+        print("检测不在哈尔滨，自己上报吧")
+        driver.close()
+        sys.exit()
 
     # --------- check the checkbox
-    driver.find_element_by_id("checkbox").click()
+    driver.execute_script("$('#txfscheckbox')[0].checked = true")
+
+    #  # scroll to bottom
+    #  driver.execute_script("document.documentElement.scrollTop=100000")
 
     # --------- submit
-    driver.find_element_by_class_name('right_btn').click()
-    print("report at " + str(datetime.now()))
-    driver.find_element_by_xpath('//a[contains(text(), "确定")]').click()
-    time.sleep(5)
+    driver.execute_script("save();")
+    time.sleep(0.5)
 
     # --------- save the result
     driver.save_screenshot(sys.argv[1]+".png")
