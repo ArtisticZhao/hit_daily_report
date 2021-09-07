@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import sys
 import random
 
+DRIVER = "Chrome"
 RANDOM_HOUR = 1
 
 get_pre_location_js = '''$.ajax({
@@ -84,7 +85,10 @@ def go_outside():
     URL = "https://xg.hit.edu.cn/zhxy-xgzs/xg_mobile/xs/yqxx"
     URL_OUT = "https://xg.hit.edu.cn/zhxy-xgzs/xg_mobile/xsCxsq"
     # open report page
-    driver = webdriver.Firefox()
+    if DRIVER == "Firefox":
+        driver = webdriver.Firefox()
+    elif DRIVER == "Chrome":
+        driver = webdriver.Chrome()
     driver.get(URL)
     # login
     username_input = driver.find_element_by_id("username")
@@ -118,7 +122,7 @@ if __name__ == "__main__":
             go_outside()
             sys.exit(0)
 
-    delay_time_random = random.randint(0, RANDOM_HOUR*3600)
+    delay_time_random = 0  # random.randint(0, RANDOM_HOUR*3600)
     print("deley " + str(delay_time_random) + "s")
     time.sleep(delay_time_random)
 
@@ -131,7 +135,10 @@ if __name__ == "__main__":
     profile.set_preference("geo.prompt.testing.allow", False)
 
     # --------- open report page
-    driver = webdriver.Firefox(firefox_profile=profile)
+    if DRIVER == "Firefox":
+        driver = webdriver.Firefox(firefox_profile=profile)
+    elif DRIVER == "Chrome":
+        driver = webdriver.Chrome()
     driver.get(URL)
     # --------- login
     username_input = driver.find_element_by_id("username")
